@@ -1,0 +1,14 @@
+<%= form_for(@account) do |f| %>
+	<%= render 'shared/error_messages', object: f.object %>
+	
+	<%= f.label :name, "New Account Name" %>
+	<%= f.text_field :name %>
+
+	<!-- 
+	<%= f.label :password %>
+	<%= f.password_field :password %> 
+	-->
+	<br>
+
+	<%= f.submit "Create", class: "btn btn-primary" %>
+<% end %>

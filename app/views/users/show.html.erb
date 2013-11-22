@@ -1,0 +1,19 @@
+<% if current_user.admin? %>
+	<% flash.now[:error] = "This is an administration user. To view your accounts sign in with your personal user account" %>
+	<center><%= link_to "Home", root_url, class: "btn btn-large btn-primary center" %></center>
+<% else %>
+<div class="row hero-unit">
+	<h2><%= current_user.name %></h2>
+	<h3>Current Accounts</h3>
+	<div>
+		<% if @user.accounts.any? %>
+			<ol class="accounts">
+				<%= render @accounts %>
+			</ol>
+		<% else %>
+			<p>You have no accounts, create one to continue</p>
+		<% end %>
+		<%= link_to 'Make New Account', new_account_path(current_user) %>
+	</div>
+</div>
+<% end %>

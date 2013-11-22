@@ -1,0 +1,10 @@
+<li>
+	<span class="content"><%= account.name.upcase %></span>
+	<span class="balance">
+		Current Balance: $<%= account.balance %>
+	</span>
+	<% if current_user?(account.user) %>
+		<%= link_to 'Transfer', edit_account_path(account) %>
+		<%= link_to "Delete", account, method: :delete, data: { confirm: "Are you sure?" }, title: account.name %>
+	<% end %>
+</li>

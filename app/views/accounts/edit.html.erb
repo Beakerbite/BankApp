@@ -1,0 +1,18 @@
+<div class="row hero-unit">
+	<h2><%= @account.name %></h2>
+	<div>
+		<% if @user.accounts.count > 1 %>
+			<ol class="accounts">
+				<% @user.accounts.each do |acct| %>
+					<% unless acct == @account %>
+						<% @transAccount = acct %>
+						<%= render 'transfer' %>
+					<% end %>
+				<% end %>
+			</ol>
+		<% else %>
+			<p>You have no accounts to transfer to, create another one to continue</p><br>
+			<%= link_to "Go Back", user_path(@account.user_id), class: "btn btn-primary" %>
+		<% end %>
+	</div>
+</div>

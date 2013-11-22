@@ -1,0 +1,80 @@
+@import "bootstrap";
+
+#logo {
+	color: gray;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 1.7em;
+	padding-top: 10px;
+	margin-right: 10px;
+	float: left;
+
+	&:hover {
+	color: gray;
+	text-decoration: none;
+	}
+}
+
+.hero-unit {
+	padding-top: 2px;
+	padding-right: 20px;
+	padding-left: 20px;
+	padding-bottom: 20px;
+}
+
+.users {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 10px 0;
+    border-top: 1px solid gray;
+    &:last-child {
+      border-bottom: 1px solid gray;
+    }
+  }
+}
+
+/* accounts */
+
+.accounts {
+  list-style: none;
+  margin: 10px 0 0 0;
+
+  li {
+    padding: 10px 0;
+    border-top: 1px solid #e8e8e8;
+  }
+}
+.content {
+  display: block;
+}
+.balance {
+  color: gray;
+}
+
+
+/* universal */
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	padding-top: 60px;
+}
+
+section {
+	overflow: auto;
+}
+
+textarea {
+	resize: vertical;
+}
+
+.center {
+	text-align: center;
+	h1 {
+	margin-bottom: 10px;
+	}
+}

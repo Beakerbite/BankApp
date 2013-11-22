@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20131121133753) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "balance"
-    t.string   "user_id"
+    t.integer  "user_id"
     t.string   "name"
   end
 

@@ -1,0 +1,17 @@
+<div class="row">
+	<div class="span4 offset3 hero-unit">
+		<h1 class="center">Sign in</h1><br>
+		<%= form_for(:session, url: sessions_path) do |f| %>
+
+			<%= f.label :email %>
+			<%= f.text_field :email %>
+
+			<%= f.label :password %>
+			<%= f.password_field :password %>
+			<br />
+			<%= f.submit "Sign in", class: "btn btn-primary" %>
+		<% end %>
+
+		<p>New user? Please ask an administrator for help.</p>
+	</div>
+</div>

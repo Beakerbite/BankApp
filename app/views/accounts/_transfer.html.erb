@@ -1,0 +1,9 @@
+<li>
+	<span class="content"><%= @transAccount.name.upcase %></span>
+	<span class="balance">
+		Current Balance: $<%= @transAccount.balance %>
+	</span>
+	<% if current_user?(@transAccount.user) %>
+		<%= link_to 'Transfer', '#' %>
+	<% end %>
+</li>
