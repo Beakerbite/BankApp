@@ -24,6 +24,8 @@ class AccountsController < ApplicationController
 	def transfer
 	end
 
+	
+
 	def destroy
 		if @account.balance == 0.0
 			@account.destroy
