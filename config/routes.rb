@@ -6,6 +6,7 @@ BankApp::Application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
 
   root 'static_pages#home'
+  match '/contact',      to: 'static_pages#contact',  via: 'get'
 
   match '/signup',       to: 'users#new',             via: 'get'
   match '/index',        to: 'users#index',           via: 'get'
