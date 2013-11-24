@@ -4,9 +4,9 @@
 		Current Balance: $<%= account.balance %>
 	</span>
 	<% if current_user?(account.user) %>
-		<%= link_to 'Deposit', '#' %>
-		<%= link_to 'Withdraw', '#' %>
-		<%= link_to 'Transfer', edit_account_path(account) %>
+		<%= link_to 'Deposit', modify_path(id: account.id, type: 'deposit') %>
+		<%= link_to 'Withdraw', modify_path(id: account.id, type: 'withdraw') %>
+		<%= link_to 'Transfer', modify_path(id: account.id, type: 'transfer') %>
 		<%= link_to "Delete", account, method: :delete, data: { confirm: "Are you sure?" }, title: account.name %>
 	<% end %>
 </li>

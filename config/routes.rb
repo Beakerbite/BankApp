@@ -13,6 +13,12 @@ BankApp::Application.routes.draw do
   match '/signin',       to: 'sessions#new',          via: 'get'
   match '/signout',      to: 'sessions#destroy',      via: 'delete'
 
+  match '/transfer',     to: 'accounts#transfer',     via: 'post'
+  match '/deposit',      to: 'accounts#deposit',      via: 'post'
+  match '/withdraw',     to: 'accounts#withdraw',     via: 'post'
+
+  get 'accounts/:id/:type' => 'accounts#edit', as: :modify
+
 
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,18 +1,48 @@
-<div class="row hero-unit">
-	<h2><%= @account.name %></h2>
-	<div>
-		<% if @user.accounts.count > 1 %>
-			<ol class="accounts">
-				<% @user.accounts.each do |acct| %>
-					<% unless acct == @account %>
-						<% @transAccount = acct %>
-						<%= render 'transfer' %>
-					<% end %>
+<% if params[:type] == "transfer" %>
+	<div class="row hero-unit">
+		<h2><%= "#{@account.name} | $#{@account.balance}" %></h2>
+		<div>
+			<% if @user.accounts.count > 1 %>
+				<%= form_tag(controller: "accounts", action: "transfer", method: "patch") do %>
+					<%= hidden_field_tag(:from_account, "#{@account.id}")  %>
+					<%= label_tag(:transfer_amount, "Enter the amount to transfer from #{@account.name}.") %>
+					<%= text_field_tag(:transfer_amount) %><br>
+					<%= label_tag(:select_account, "Select the account to transfer to.") %>
+					<% accounts_array_minus_current = @user.accounts.all %>
+					<% accounts_array_minus_current.delete(@account) %>
+					<%= collection_select(:select_account, :to_account, accounts_array_minus_current, :id, :name) %> <br>
+					<%= submit_tag("Transfer", class: "btn btn-primary") %>
 				<% end %>
-			</ol>
-		<% else %>
-			<p>You have no accounts to transfer to, create another one to continue</p><br>
-			<%= link_to "Go Back", user_path(@account.user_id), class: "btn btn-primary" %>
-		<% end %>
+			<% else %>
+				<p>You have no accounts to transfer to, create another one to continue</p><br>
+				<%= link_to "Go Back", user_path(@account.user_id), class: "btn btn-primary" %>
+			<% end %>
+		</div>
 	</div>
-</div>
+<% elsif params[:type] == "deposit" %>
+	<div class="row hero-unit">
+		<h2><%= "#{@account.name} | $#{@account.balance}" %></h2>
+		<div>
+			<%= form_tag(controller: "accounts", action: "deposit", method: "patch") do %>
+				<%= hidden_field_tag(:from_account, "#{@account.id}")  %>
+				<%= label_tag(:amount, "Enter amount to deposit.") %>
+				<%= text_field_tag :amount %><br>
+				<%= submit_tag "Deposit", class: "btn btn-primary" %>
+			<% end %>
+		</div>
+	</div>
+<% elsif params[:type] == "withdraw" %>
+		<h2><%= "#{@account.name} | $#{@account.balance}" %></h2>
+		<div>
+			<%= form_tag(controller: "accounts", action: "withdraw", method: "patch") do %>
+				<%= hidden_field_tag(:from_account, "#{@account.id}")  %>
+				<%= label_tag(:amount, "Enter amount to withdraw.") %>
+				<%= text_field_tag :amount %><br>
+				<%= submit_tag "Withdraw", class: "btn btn-primary" %>
+			<% end %>
+		</div>
+	</div>
+<% else %>
+	<% flash.now[:error] = "There was a problem with your request" %>
+	<center><%= link_to "Home", root_url, class: "btn btn-large btn-primary center" %></center>
+<% end %>
