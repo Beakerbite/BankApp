@@ -1,18 +1,23 @@
 class AccountsController < ApplicationController
+	require 'bigdecimal'
+
 	before_action :correct_user, only: [:edit, :destroy]
+	before_action :admin_user, only: [:new, :create]
 
 	def new
 		@account = Account.new
+		@user = User.find_by(id: params[:format])
 	end
 
 	def create
-		@account = current_user.accounts.build(balance: 0.0, name: account_params[:name])
+		@user = User.find_by(id: params[:user])
+		@account = @user.accounts.build(balance: 0.0, name: account_params[:name])
 		if @account.save
 			flash[:success] = "New account created."
-			redirect_to user_path(current_user)
+			redirect_to user_path(@user)
 		else
 			flash[:error] = "Could not create account."
-			redirect_to user_path(current_user)
+			redirect_to user_path(@user)
 		end
 	end
 
@@ -27,7 +32,7 @@ class AccountsController < ApplicationController
 	def transfer
 		@account_from = current_user.accounts.find(params[:from_account].to_i)
 		@account_to = current_user.accounts.find(params[:select_account][:to_account].to_i)
-		amount = params[:transfer_amount].to_f
+		amount = BigDecimal(params[:transfer_amount]).truncate(2)
 		if amount <= 0.0
 			flash[:error] = "Please enter a valid amount."
 			redirect_to user_path(current_user)
@@ -54,7 +59,7 @@ class AccountsController < ApplicationController
 
 	def deposit
 		@account = current_user.accounts.find(params[:from_account].to_i)
-		amount = params[:amount].to_f
+		amount = BigDecimal(params[:amount]).truncate(2)
 		if amount <= 0.0
 			flash[:error] = "Please enter a valid amount."
 			redirect_to user_path(current_user)
@@ -75,7 +80,7 @@ class AccountsController < ApplicationController
 
 	def withdraw
 		@account = current_user.accounts.find(params[:from_account].to_i)
-		amount = params[:amount].to_f
+		amount = BigDecimal(params[:amount]).truncate(2)
 		if amount <= 0.0
 			flash[:error] = "Please enter a valid amount."
 			redirect_to user_path(current_user)
@@ -98,6 +103,7 @@ class AccountsController < ApplicationController
 	end
 
 	def destroy
+		@account = Account.find(params[:id])
 		if @account.balance == 0.0
 			@account.destroy
 			redirect_to user_path(current_user)
@@ -116,6 +122,14 @@ class AccountsController < ApplicationController
 
 	def correct_user
 		@account = current_user.accounts.find_by(id: params[:id])
-		redirect_to root_url if @account.nil?
+		if current_user.admin?
+			return
+		elsif @account.nil?
+			redirect_to root_url
+		end
+	end
+
+	def admin_user
+		redirect_to root_url unless current_user.admin?
 	end
 end

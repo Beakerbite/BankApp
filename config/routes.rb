@@ -19,6 +19,7 @@ BankApp::Application.routes.draw do
   match '/withdraw',     to: 'accounts#withdraw',     via: 'post'
 
   get 'accounts/:id/:type' => 'accounts#edit', as: :modify
+  get 'user/:id/' => 'users#manage', as: :manage
 
 
 

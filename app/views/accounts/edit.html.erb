@@ -1,6 +1,6 @@
 <% if params[:type] == "transfer" %>
 	<div class="row hero-unit">
-		<h2><%= "#{@account.name} | $#{@account.balance}" %></h2>
+		<h2><%= "#{@account.name} | #{number_to_currency(@account.balance, precision: 2)}" %></h2>
 		<div>
 			<% if @user.accounts.count > 1 %>
 				<%= form_tag(controller: "accounts", action: "transfer", method: "patch") do %>
@@ -21,7 +21,7 @@
 	</div>
 <% elsif params[:type] == "deposit" %>
 	<div class="row hero-unit">
-		<h2><%= "#{@account.name} | $#{@account.balance}" %></h2>
+		<h2><%= "#{@account.name} | #{number_to_currency(@account.balance, precision: 2)}" %></h2>
 		<div>
 			<%= form_tag(controller: "accounts", action: "deposit", method: "patch") do %>
 				<%= hidden_field_tag(:from_account, "#{@account.id}")  %>
@@ -32,7 +32,7 @@
 		</div>
 	</div>
 <% elsif params[:type] == "withdraw" %>
-		<h2><%= "#{@account.name} | $#{@account.balance}" %></h2>
+		<h2><%= "#{@account.name} | #{number_to_currency(@account.balance, precision: 2)}" %></h2>
 		<div>
 			<%= form_tag(controller: "accounts", action: "withdraw", method: "patch") do %>
 				<%= hidden_field_tag(:from_account, "#{@account.id}")  %>

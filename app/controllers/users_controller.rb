@@ -8,8 +8,21 @@ class UsersController < ApplicationController
 	end
 
 	def show
-		@user = current_user
-		@accounts = @user.accounts.all
+		if (current_user.admin?)
+			@user = User.find(params[:id].to_i)
+			@accounts = @user.accounts.all
+		else
+			@user = current_user
+			@accounts = @user.accounts.all
+		end
+	end
+
+	def manage
+		@user = User.find(params[:id].to_i)
+		redirect_to user_path(@user)
+	rescue
+		flash[:error] = "Problem finding user"
+		redirect_to root_url
 	end
 
 	def edit
@@ -31,8 +44,15 @@ class UsersController < ApplicationController
 	def create
 		@user = User.new(user_params)
 		if @user.save
-			flash.now[:success] = "User created"
-			redirect_to root_url
+			@account = @user.accounts.build(balance: 0.0, name: "Savings")
+			if @account.save
+				flash.now[:success] = "User created"
+				redirect_to user_path(@user)
+				return
+			else
+				flash.now[:error] = "User created but could not create default account"
+				redirect_to user_path(@user)
+			end
 		else
 			render 'new'
 		end
@@ -43,7 +63,7 @@ class UsersController < ApplicationController
 		unless fndUser == current_user
 			fndUser.destroy
 			flash[:success] = "User deleted"
-			redirect_to root_url
+			redirect_to index_path
 		else
 			flash[:error] = "Cannot delete self."
 			redirect_to root_url
@@ -57,7 +77,7 @@ class UsersController < ApplicationController
 
 	def correct_user
 		@user = User.find(params[:id])
-		redirect_to(root_url) unless current_user?(@user)
+		redirect_to(root_url) unless (current_user?(@user) || current_user.admin?)
 	rescue
 		redirect_to(root_url)
 	end

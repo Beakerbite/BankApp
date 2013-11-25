@@ -1,12 +1,15 @@
 <li>
 	<span class="content"><%= account.name.upcase %></span>
 	<span class="balance">
-		Current Balance: $<%= account.balance %>
+		Current Balance: <%= number_to_currency(account.balance, precision: 2) %>
 	</span>
-	<% if current_user?(account.user) %>
-		<%= link_to 'Deposit', modify_path(id: account.id, type: 'deposit') %>
-		<%= link_to 'Withdraw', modify_path(id: account.id, type: 'withdraw') %>
-		<%= link_to 'Transfer', modify_path(id: account.id, type: 'transfer') %>
-		<%= link_to "Delete", account, method: :delete, data: { confirm: "Are you sure?" }, title: account.name %>
+	<% if (current_user?(account.user) || current_user.admin?) %>
+		<% if (current_user?(account.user)) %>
+			| <%= link_to 'Deposit', modify_path(id: account.id, type: 'deposit') %> | 
+			<%= link_to 'Withdraw', modify_path(id: account.id, type: 'withdraw') %> | 
+			<%= link_to 'Transfer', modify_path(id: account.id, type: 'transfer') %>
+		<% else %>
+			| <%= link_to "Delete", account, method: :delete, data: { confirm: "Are you sure?" }, title: account.name %>
+		<% end %>
 	<% end %>
 </li>

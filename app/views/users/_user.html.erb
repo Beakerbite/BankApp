@@ -1,7 +1,7 @@
 <% if !user.admin? %>
 <li>
 	
-	<%= user.name  %> | <%= link_to "delete", user, method: :delete, data: { confirm: "Are you sure?" } %>
+	<%= user.name  %> | <%= link_to "Manage Accounts", manage_path(id: user.id) %> | <%= link_to "Delete", user, method: :delete, data: { confirm: "Are you sure?" } %>
 	
 </li>
 <% end %>
