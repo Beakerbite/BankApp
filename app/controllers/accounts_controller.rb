@@ -104,12 +104,13 @@ class AccountsController < ApplicationController
 
 	def destroy
 		@account = Account.find(params[:id])
+		@user = User.find_by(id: @account.user_id)
 		if @account.balance == 0.0
 			@account.destroy
-			redirect_to user_path(current_user)
+			redirect_to user_path(@user)
 		elsif @account.balance > 0.0
 			flash[:error] = "You must pull out the remaining balance first."
-			redirect_to user_path(current_user)
+			redirect_to user_path(@user)
 		else
 			flash[:error] = "Could not delete account."
 		end
