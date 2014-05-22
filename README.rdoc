@@ -1,8 +1,9 @@
-== README
+== Bank App
 
-This is a small demo app created by Jacob Craig
+This is a small demo app created by in Ruby On Rails Jacob Craig
 
 To use this app, start by signing in with the default admin account created in the seed. 
 
 email:		admin@example.com
+
 password:	password
